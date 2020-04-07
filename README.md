@@ -81,4 +81,7 @@ After opening the project in one of the code editors (for example, Visual Studio
 ```npm start``` <br>
 In order to run the unit tests type the following command: <br>
 ```npm test``` <br>
-You can use Postman application to verify the routes and implement various requests.
+You can use Postman application to verify the routes and implement various requests. See the example below: <br>
+
+
+![Postman](postman.png)

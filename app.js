@@ -1,4 +1,3 @@
-
 const express = require("express"); //Express helps us to create RESTful routes easiliy.
 const app = express(); //We activate the Express with the help of this command.
 const mongoose = require("mongoose");
@@ -20,19 +19,16 @@ app.use('/categories', categoriesRoute, productsRoute); // using the middleware 
 //function to connect the database for test calls
 function connect() {
     return new Promise((resolve, reject) => {
-       console.log(process.env.NODE_ENV);
       if (process.env.NODE_ENV === 'test') {
-        console.log('Connecting test');
         const Mockgoose = require('mockgoose').Mockgoose;
         const mockgoose = new Mockgoose(mongoose);
-
         mockgoose.prepareStorage()
           .then(() => {
             mongoose.connect(process.env.DB_CONNECTION,
               { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology:true })
               .then((res, err) => {
                 if (err) return reject(err);
-                console.log("Connected");
+                console.log("Connected to DB");
                 resolve();
               })
           })
@@ -41,7 +37,7 @@ function connect() {
             { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology:true })
             .then((res, err) => {
               if (err) return reject(err);
-              console.log("Connected");
+              console.log("Connected to DB");
               resolve();
             });
        } 
@@ -53,11 +49,6 @@ function close() {
   return mongoose.disconnect();
 }
 
-//Connect to db
-mongoose.connect(process.env.DB_CONNECTION, 
-    {useNewUrlParser: true, useUnifiedTopology:true}, 
-    () => console.log("Connected to DB"));
-
+connect();
 app.listen(process.env.PORT);
 module.exports = { app, connect, close };
-

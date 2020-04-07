@@ -41,7 +41,7 @@ router.post("/:categoryId/products/", async(req, res) => {
 
 // Delete a product
 router.delete('/:categoryId/products/:productId', async(req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.categoryId) ||!mongoose.Types.ObjectId.isValid(req.params.productId)) {
         return res.status(404).send('Invalid id'); 
     } else {
         try {
@@ -58,7 +58,7 @@ router.delete('/:categoryId/products/:productId', async(req, res) => {
 
 // Update a product
 router.patch('/:categoryId/products/:productId', async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id) && req.body.name) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.categoryId) ||!mongoose.Types.ObjectId.isValid(req.params.productId)) {
         return res.status(404).send('Invalid id'); 
     } else if (!req.body.name || req.body.name === '') {
         res.sendStatus(400);

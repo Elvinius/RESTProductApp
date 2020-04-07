@@ -50,7 +50,7 @@ describe('Test /categories', function() {
       done();
     })
    .catch((err) => done(err));
-});
+  });
 
   it('OK, getting the category', (done) => {
     request(app).post('/categories')
@@ -105,7 +105,7 @@ it('OK, updating a category', (done) => {
           expect(res.status).to.equal(200);
           request(app).get('/categories')
             .then((res) => {
-              expect(res.body.length).to.equal(1);
+              expect(res.body[0].name).to.equal("updated");
               done();
             });
         }); 

@@ -26,7 +26,7 @@ describe('Test /categories/:categoryId/products', function() {
     it('OK, getting the products', (done) => {
         request(app).post('/categories')
         .type('json')
-        .send({ name: "test" })
+        .send({ name: "prtest1" })
         .then((res) => {
             expect(res.status).to.equal(200);
             request(app).get('/categories')
@@ -52,12 +52,12 @@ describe('Test /categories/:categoryId/products', function() {
     it('OK, posting a product', (done) => {
         request(app).post('/categories')
         .type('json')
-        .send({ name: "category" })
+        .send({ name: "prtest2" })
         .then((res) => {
             expect(res.status).to.equal(200);
             request(app).get('/categories')
             .then((res) => {
-                expect(res.body.length).to.equal(1);
+                expect(res.status).to.equal(200);
                 request(app)
                 .post(`/categories/${res.body[0]._id}/products`)
                 .send({name: "products"})
@@ -73,23 +73,25 @@ describe('Test /categories/:categoryId/products', function() {
     it('OK, deleting a product', (done) => {
         request(app).post('/categories')
         .type('json')
-        .send({ name: "test" })
+        .send({ name: "prtest3" })
         .then((res) => {
+            expect(res.status).to.equal(200);
             request(app).get('/categories')
             .then((res) => {
-                expect(res.body.length).to.equal(1);
+                expect(res.status).to.equal(200);
                 request(app)
                 .post(`/categories/${res.body[0]._id}/products`)
                 .send({name: "tests"})
                 .then((res2) => {
+                expect(res2.status).to.equal(200);
                 request(app)
                 .get(`/categories/${res.body[0]._id}/products`)
                 .then((res3) => {
-                    expect(res.body.length).to.equal(1);
+                    expect(res3.status).to.equal(200);
                     request(app)
                     .delete(`/categories/${res.body[0]._id}/products/${res3.body[0]._id}`)
-                    .then((res3) => {
-                        expect(res3.status).to.equal(200);
+                    .then((res4) => {
+                        expect(res4.status).to.equal(200);
                         done();
                   });
                 });  
@@ -104,17 +106,20 @@ describe('Test /categories/:categoryId/products', function() {
         .type('json')
         .send({ name: "test2" })
         .then((res) => {
+            expect(res.status).to.equal(200);
             request(app).get('/categories')
             .then((res) => {
+                expect(res.status).to.equal(200);
                 let categoryId = res.body[0]._id;
                 request(app)
                 .post(`/categories/${categoryId}/products`)
                 .send({name: "tests2"})
                 .then((res2) => {
-                request(app)
-                .get(`/categories/${categoryId}/products`)
-                .then((res3) => {
-                    expect(res3.body.length).to.equal(1);
+                  expect(res2.status).to.equal(200);
+                  request(app)
+                  .get(`/categories/${categoryId}/products`)
+                  .then((res3) => {
+                    expect(res3.status).to.equal(200);
                     let productId = res3.body[0]._id;
                     request(app)
                     .patch(`/categories/${categoryId}/products/${productId}`)
